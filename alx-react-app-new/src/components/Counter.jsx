@@ -1,15 +1,29 @@
-import {useState} from 'react';
+// src/components/Counter.jsx
+import { useState } from 'react';
 
-function Counter() {
-const [count, setCount] = useState(0);
+const Counter = () => {
+  const [count, setCount] = useState(0);
 
-return(
-<div>
-<h2>Counter: {count}</h2>
-const increment = () => setCount(count + 1);
-const decrement = () => setCount(count - 1);
-const reset = () => setCount(0);
-</div>
-);
-}
+  return (
+    <div>
+      <h2>Counter: {count}</h2>
+
+      {/* Increment button */}
+      <button onClick={() => setCount(count + 1)}>
+        Increment
+      </button>
+
+      {/* Decrement button */}
+      <button onClick={() => setCount(count - 1)}>
+        Decrement
+      </button>
+
+      {/* Reset button */}
+      <button onClick={() => setCount(0)}>
+        Reset
+      </button>
+    </div>
+  );
+};
+
 export default Counter;
