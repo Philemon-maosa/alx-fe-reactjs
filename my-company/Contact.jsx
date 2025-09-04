@@ -1,60 +1,48 @@
- import { useState } from 'react';
+import { useState } from 'react';
 
-   function Contact() {
-const style = {
-    textAlign: "center",
-    padding: "2rem",
-    backgroundColor: "#fce4ec",
-    minHeight: "80vh",
-    color: "#333",
+function Contact() {
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-     const [formData, setFormData] = useState({
-       name: '',
-       email: '',
-       message: ''
-     });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert('Form submitted!');
+  };
 
-     const handleChange = (e) => {
-       setFormData({ ...formData, [e.target.name]: e.target.value });
-     };
+  return (
+    <div style={{ textAlign: 'center', padding: '2rem', backgroundColor: '#fce4ec', minHeight: '80vh' }}>
+      <h1>Contact Us</h1>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          placeholder="Your Name"
+          style={{ display: 'block', margin: '10px auto' }}
+        />
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          placeholder="Your Email"
+          style={{ display: 'block', margin: '10px auto' }}
+        />
+        <textarea
+          name="message"
+          value={formData.message}
+          onChange={handleChange}
+          placeholder="Your Message"
+          style={{ display: 'block', margin: '10px auto' }}
+        />
+        <button type="submit" style={{ marginTop: '10px' }}>Send Message</button>
+      </form>
+    </div>
+  );
+}
 
-     const handleSubmit = (e) => {
-       e.preventDefault();
-       alert('Form submitted!');
-     };
-
-     return (
-       <div style={{ padding: '20px' }}>
-         <h1>Contact Us</h1>
-         <form onSubmit={handleSubmit}>
-           <input
-             type="text"
-             name="name"
-             placeholder="Your Name"
-             value={formData.name}
-             onChange={handleChange}
-             style={{ display: 'block', margin: '10px 0' }}
-           />
-           <input
-             type="email"
-             name="email"
-             placeholder="Your Email"
-             value={formData.email}
-             onChange={handleChange}
-             style={{ display: 'block', margin: '10px 0' }}
-           />
-           <textarea
-             name="message"
-             placeholder="Your Message"
-             value={formData.message}
-             onChange={handleChange}
-             style={{ display: 'block', margin: '10px 0' }}
-           />
-           <button type="submit">Send Message</button>
-         </form>
-       </div>
-     );
-   }
-
-   export default Contact;
+export default Contact;
