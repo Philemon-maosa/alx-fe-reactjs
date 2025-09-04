@@ -1,45 +1,37 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 function Contact() {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    alert('Form submitted!');
+    e.preventDefault(); // explicitly included
+    alert(`Form submitted: ${name}, ${email}, ${message}`);
   };
 
   return (
-    <div style={{ textAlign: 'center', padding: '2rem', backgroundColor: '#fce4ec', minHeight: '80vh' }}>
+    <div>
       <h1>Contact Us</h1>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           placeholder="Your Name"
-          style={{ display: 'block', margin: '10px auto' }}
         />
         <input
           type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           placeholder="Your Email"
-          style={{ display: 'block', margin: '10px auto' }}
         />
         <textarea
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
           placeholder="Your Message"
-          style={{ display: 'block', margin: '10px auto' }}
         />
-        <button type="submit" style={{ marginTop: '10px' }}>Send Message</button>
+        <button type="submit">Send Message</button> {/* explicitly included */}
       </form>
     </div>
   );
