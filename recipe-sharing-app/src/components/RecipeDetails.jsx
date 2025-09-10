@@ -5,7 +5,9 @@ import DeleteRecipeButton from "./DeleteRecipeButton";
 function RecipeDetails() {
   const { id } = useParams();
   const recipes = useRecipeStore((state) => state.recipes);
-  const recipe = recipes[id];
+
+  // Find the recipe by ID instead of using array index
+  const recipe = recipes.find((r) => String(r.id) === id);
 
   if (!recipe) return <p>Recipe not found</p>;
 
@@ -13,11 +15,12 @@ function RecipeDetails() {
     <div>
       <h2>{recipe.title}</h2>
       <p>{recipe.description}</p>
+      <p><strong>ID:</strong> {recipe.id}</p>
 
-      <Link to={`/edit/${id}`}>
+      <Link to={`/edit/${recipe.id}`}>
         <button>Edit</button>
       </Link>
-      <DeleteRecipeButton id={id} />
+      <DeleteRecipeButton id={recipe.id} />
     </div>
   );
 }
