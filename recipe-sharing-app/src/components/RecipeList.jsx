@@ -1,4 +1,4 @@
-import React from "react";
+import { Link } from "react-router-dom";
 import useRecipeStore from "./recipeStore";
 
 function RecipeList() {
@@ -8,13 +8,12 @@ function RecipeList() {
     <div>
       <h2>Recipe List</h2>
       {recipes.length === 0 ? (
-        <p>No recipes added yet.</p>
+        <p>No recipes yet. Add one!</p>
       ) : (
         <ul>
           {recipes.map((recipe, index) => (
             <li key={index}>
-              <h3>{recipe.title}</h3>
-              <p>{recipe.instructions}</p>
+              <Link to={`/recipe/${index}`}>{recipe.title}</Link>
             </li>
           ))}
         </ul>

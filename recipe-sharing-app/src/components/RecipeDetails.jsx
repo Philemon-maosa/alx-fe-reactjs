@@ -1,30 +1,25 @@
-import { create } from "zustand";
+import { useParams, Link } from "react-router-dom";
+import useRecipeStore from "./recipeStore";
+import DeleteRecipeButton from "./DeleteRecipeButton";
 
-const useRecipeStore = create((set) => ({
-  recipes: [],
+function RecipeDetails() {
+  const { id } = useParams();
+  const recipes = useRecipeStore((state) => state.recipes);
+  const recipe = recipes[id];
 
-  // Add a new recipe
-  addRecipe: (newRecipe) =>
-    set((state) => ({
-      recipes: [...state.recipes, newRecipe],
-    })),
+  if (!recipe) return <p>Recipe not found</p>;
 
-  // Update an existing recipe by index
-  updateRecipe: (index, updatedRecipe) =>
-    set((state) => {
-      const updatedRecipes = [...state.recipes];
-      updatedRecipes[index] = updatedRecipe;
-      return { recipes: updatedRecipes };
-    }),
+  return (
+    <div>
+      <h2>{recipe.title}</h2>
+      <p>{recipe.description}</p>
 
-  // Delete a recipe by index
-  deleteRecipe: (index) =>
-    set((state) => ({
-      recipes: state.recipes.filter((_, i) => i !== index),
-    })),
+      <Link to={`/edit/${id}`}>
+        <button>Edit</button>
+      </Link>
+      <DeleteRecipeButton id={id} />
+    </div>
+  );
+}
 
-  // Initialize recipe list
-  setRecipes: (recipes) => set({ recipes }),
-}));
-
-export default useRecipeStore;
+export default RecipeDetails;
