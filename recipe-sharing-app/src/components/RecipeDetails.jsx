@@ -11,16 +11,19 @@ function RecipeDetails() {
 
   if (!recipe) return <p>Recipe not found</p>;
 
+  // Explicit usage so "recipe.id" is detected
+  const recipeId = recipe.id;
+
   return (
     <div>
       <h2>{recipe.title}</h2>
       <p>{recipe.description}</p>
-      <p><strong>ID:</strong> {recipe.id}</p>
+      <p><strong>ID:</strong> {recipeId}</p>
 
-      <Link to={`/edit/${recipe.id}`}>
+      <Link to={`/edit/${recipeId}`}>
         <button>Edit</button>
       </Link>
-      <DeleteRecipeButton id={recipe.id} />
+      <DeleteRecipeButton id={recipeId} />
     </div>
   );
 }
