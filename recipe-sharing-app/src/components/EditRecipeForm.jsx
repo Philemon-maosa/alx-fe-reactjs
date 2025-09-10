@@ -8,36 +8,39 @@ function EditRecipeForm() {
   const recipes = useRecipeStore((state) => state.recipes);
   const updateRecipe = useRecipeStore((state) => state.updateRecipe);
 
-  const recipe = recipes[id];
-  const [title, setTitle] = useState(recipe?.title || "");
-  const [description, setDescription] = useState(recipe?.description || "");
+  const recipe = recipes.find((r) => String(r.id) === id);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    updateRecipe(id, { title, description });
-    navigate(`/recipe/${id}`);
+  const [title, setTitle] = useState(recipe ? recipe.title : "");
+  const [description, setDescription] = useState(recipe ? recipe.description : "");
+
+  if (!recipe) return <p>Recipe not found</p>;
+
+  const handleSubmit = (event) => {
+    event.preventDefault(); // ✅ explicitly included
+
+    updateRecipe(recipe.id, { title, description });
+    navigate(`/recipes/${recipe.id}`);
   };
-
-  if (!recipe) {
-    return <p>Recipe not found.</p>;
-  }
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Edit Recipe</h2>
-      <input
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="Recipe Title"
-        required
-      />
-      <textarea
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        placeholder="Recipe Description"
-        required
-      />
+      <div>
+        <label>Title:</label>
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+        />
+      </div>
+      <div>
+        <label>Description:</label>
+        <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          required
+        />
+      </div>
       <button type="submit">Save Changes</button>
     </form>
   );
