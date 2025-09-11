@@ -1,36 +1,24 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
 import useRecipeStore from "./recipeStore";
 
 const RecipeList = () => {
-  const recipes = useRecipeStore((state) => state.recipes);
   const filteredRecipes = useRecipeStore((state) => state.filteredRecipes);
-  const searchTerm = useRecipeStore((state) => state.searchTerm);
-  const filterRecipes = useRecipeStore((state) => state.filterRecipes);
-
-  // Run filtering whenever searchTerm or recipes change
-  useEffect(() => {
-    filterRecipes();
-  }, [searchTerm, recipes, filterRecipes]);
-
-  const listToDisplay = searchTerm ? filteredRecipes : recipes;
+  const addFavorite = useRecipeStore((state) => state.addFavorite);
 
   return (
     <div>
-      <h2>Recipe List</h2>
-      {listToDisplay.length > 0 ? (
+      <h2>Recipes</h2>
+      {filteredRecipes.length === 0 ? (
+        <p>No recipes found.</p>
+      ) : (
         <ul>
-          {listToDisplay.map((recipe) => (
+          {filteredRecipes.map((recipe) => (
             <li key={recipe.id}>
-              <Link to={`/recipe/${recipe.id}`}>{recipe.title}</Link>
+              {recipe.title}
+              <button onClick={() => addFavorite(recipe.id)}>❤️</button>
             </li>
           ))}
         </ul>
-      ) : (
-        <p>No recipes found.</p>
       )}
     </div>
   );
 };
-
-export default RecipeList;
