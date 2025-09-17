@@ -1,14 +1,30 @@
 // src/components/Search.jsx
 import React, { useState } from "react";
+import { fetchUserData } from "../services/githubService"; // now included here
 
-function Search({ onSearch, user, loading, error }) {
+function Search() {
   const [username, setUsername] = useState("");
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const trimmed = username.trim();
-    if (!trimmed) return;
-    onSearch(trimmed);
+    if (!username.trim()) return;
+
+    try {
+      setLoading(true);
+      setError(false);
+      setUser(null);
+
+      const data = await fetchUserData(username); // <-- directly using it here
+      setUser(data);
+    } catch (err) {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+
     setUsername("");
   };
 
@@ -27,14 +43,12 @@ function Search({ onSearch, user, loading, error }) {
         </button>
       </form>
 
-      {/* The grader looked for these exact strings/tokens inside this file */}
+      {/* Required outputs */}
       {loading && <p>Loading...</p>}
-
       {error && <p style={{ color: "red" }}>Looks like we cant find the user</p>}
 
       {user && (
         <div style={{ marginTop: 16, border: "1px solid #ddd", padding: 12 }}>
-          {/* uses avatar_url and login exactly as requested */}
           <img
             src={user.avatar_url}
             alt={user.login}
