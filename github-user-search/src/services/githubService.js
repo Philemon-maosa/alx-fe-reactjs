@@ -1,15 +1,12 @@
 import axios from "axios";
 
-// Base URL for GitHub API
-const BASE_URL = "https://api.github.com/users/";
-
-// Function to fetch user data
-export async function fetchUserData(username) {
+export async function fetchUserData(query) {
   try {
-    const response = await axios.get(`${BASE_URL}${username}`);
-    return response.data;
+    const response = await axios.get(
+      `https://api.github.com/search/users?q=${query}`
+    );
+    return response.data.items; // <-- array of users
   } catch (error) {
-    console.error("Error fetching GitHub user:", error);
-    throw error; // rethrow so component can handle error
+    throw error;
   }
 }

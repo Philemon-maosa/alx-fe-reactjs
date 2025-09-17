@@ -1,135 +1,69 @@
-// src/components/Search.jsx
 import React, { useState } from "react";
 import { fetchUserData } from "../services/githubService";
 
 function Search() {
-  const [formData, setFormData] = useState({
-    username: "",
-    location: "",
-    minRepos: "",
-  });
-
-  const [user, setUser] = useState(null);
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.username.trim()) return;
+    setLoading(true);
+    setError(null);
 
     try {
-      setLoading(true);
-      setError(false);
-      setUser(null);
-
-      // For now, we still fetch by username only
-      const data = await fetchUserData(formData.username);
-      setUser(data);
+      const users = await fetchUserData(query);
+      setResults(users);
     } catch (err) {
-      setError(true);
+      setError("Looks like we can't find any users");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="p-4 bg-white shadow-md rounded-2xl max-w-lg mx-auto">
-      <form
-        onSubmit={handleSubmit}
-        className="grid gap-4 md:grid-cols-2"
-      >
-        {/* Username */}
-        <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Username <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            name="username"
-            placeholder="Enter GitHub username"
-            value={formData.username}
-            onChange={handleChange}
-            className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
-
-        {/* Location */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Location
-          </label>
-          <input
-            type="text"
-            name="location"
-            placeholder="e.g. Kenya"
-            value={formData.location}
-            onChange={handleChange}
-            className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-
-        {/* Minimum Repositories */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Minimum Repositories
-          </label>
-          <input
-            type="number"
-            name="minRepos"
-            placeholder="e.g. 10"
-            value={formData.minRepos}
-            onChange={handleChange}
-            className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500"
-            min="0"
-          />
-        </div>
-
-        {/* Submit Button */}
-        <div className="md:col-span-2 flex justify-center">
-          <button
-            type="submit"
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg shadow hover:bg-blue-700 transition"
-          >
-            Search
-          </button>
-        </div>
+    <div className="max-w-lg mx-auto p-4">
+      <form onSubmit={handleSubmit} className="flex gap-2">
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search GitHub users..."
+          className="border p-2 flex-grow rounded"
+        />
+        <button
+          type="submit"
+          className="bg-blue-600 text-white px-4 py-2 rounded"
+        >
+          Search
+        </button>
       </form>
 
-      {/* Results */}
-      <div className="mt-6">
-        {loading && <p className="text-blue-500">Loading...</p>}
-        {error && (
-          <p className="text-red-500">Looks like we cant find the user</p>
-        )}
+      {loading && <p>Loading...</p>}
+      {error && <p className="text-red-500">{error}</p>}
 
-        {user && (
-          <div className="mt-4 border p-4 rounded-lg text-center bg-gray-50">
+      <div className="mt-4">
+        {results.map((user) => (
+          <div
+            key={user.id}
+            className="flex items-center gap-4 border-b py-2"
+          >
             <img
               src={user.avatar_url}
               alt={user.login}
-              className="w-24 h-24 rounded-full mx-auto mb-3"
+              className="w-12 h-12 rounded-full"
             />
-            <h3 className="text-lg font-semibold">{user.name || user.login}</h3>
-            <p className="text-gray-600">login: {user.login}</p>
             <a
               href={user.html_url}
               target="_blank"
               rel="noreferrer"
-              className="text-blue-600 underline"
+              className="text-blue-600 font-semibold"
             >
-              View Profile
+              {user.login}
             </a>
           </div>
-        )}
+        ))}
       </div>
     </div>
   );
