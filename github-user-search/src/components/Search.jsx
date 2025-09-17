@@ -4,26 +4,23 @@ function Search({ onSearch }) {
   const [username, setUsername] = useState("");
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // prevent page reload
+    e.preventDefault();
     if (username.trim()) {
-      onSearch(username); // pass value to parent
-      setUsername(""); // reset input
+      onSearch(username);
+      setUsername("");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2 p-4">
+    <form onSubmit={handleSubmit} style={{ display: "flex", gap: "10px" }}>
       <input
         type="text"
         placeholder="Enter GitHub username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
-        className="border p-2 rounded w-full"
+        style={{ flex: 1, padding: "8px" }}
       />
-      <button
-        type="submit"
-        className="bg-blue-500 text-white px-4 py-2 rounded"
-      >
+      <button type="submit" style={{ padding: "8px 16px" }}>
         Search
       </button>
     </form>
