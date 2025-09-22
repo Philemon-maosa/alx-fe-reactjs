@@ -1,12 +1,5 @@
-# React + Vite
+Using Tailwind CSS, you can create designs by combining simple utility classes such as bg-gray-100, rounded-lg, and shadow-md. This makes it easy to prototype and iterate without needing to switch between HTML and CSS files. Tailwind also provides responsive design utilities through breakpoints like sm:, md:, and lg:, allowing you to easily adjust layouts and typography for different screen sizes.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Tailwind can be included in your project in two ways: using a CDN for quick setup, or through npm for a more powerful workflow that includes customization, purging unused styles, and extending the default theme. With npm setup, you also get access to plugins and configuration options that make Tailwind flexible for larger applications.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+In this project, Tailwind CSS is used to practice creating simple UI components such as cards, buttons, and responsive typography. The goal is to understand how utility classes work together to produce polished designs while keeping the code clean and maintainable.
