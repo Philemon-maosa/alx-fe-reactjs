@@ -17,11 +17,12 @@ const HomePage = () => {
         🍲 Recipe Sharing Platform
       </h1>
 
-      <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+      {/* Responsive Grid with grid-cols-1 */}
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
         {recipes.map((recipe, index) => (
           <div
             key={index}
-            className="bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transition-shadow duration-300"
+            className="bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transform hover:scale-105 transition duration-300"
           >
             <img
               src={recipe.image}
