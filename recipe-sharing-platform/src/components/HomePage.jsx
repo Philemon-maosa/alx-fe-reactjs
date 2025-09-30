@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom"; // ✅ Must import Link
 
 const HomePage = () => {
   const [recipes, setRecipes] = useState([]);
 
-  // Load recipes from data.json when component mounts
   useEffect(() => {
-    fetch("/data.json") // assumes data.json is in the public/ folder
-      .then((response) => response.json())
+    fetch("/data.json")
+      .then((res) => res.json())
       .then((data) => setRecipes(data))
-      .catch((error) => console.error("Error loading recipes:", error));
+      .catch((err) => console.error(err));
   }, []);
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
-      <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
+      <h1 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-8">
         🍲 Recipe Sharing Platform
       </h1>
 
-      {/* Responsive Grid with grid-cols-1 */}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
         {recipes.map((recipe, index) => (
           <div
@@ -34,9 +33,14 @@ const HomePage = () => {
                 {recipe.title}
               </h2>
               <p className="text-gray-600 text-sm mb-3">{recipe.description}</p>
-              <button className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+
+              {/* ✅ Link used here */}
+              <Link
+                to={`/recipe/${index}`}
+                className="mt-2 inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200"
+              >
                 View Recipe
-              </button>
+              </Link>
             </div>
           </div>
         ))}
