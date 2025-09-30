@@ -3,15 +3,31 @@ import React, { useState } from "react";
 const AddRecipeForm = () => {
   const [title, setTitle] = useState("");
   const [ingredients, setIngredients] = useState("");
-  const [steps, setSteps] = useState(""); // ✅ renamed
+  const [steps, setSteps] = useState("");
+  const [errors, setErrors] = useState({}); // ✅ errors state
+
+  // ✅ validate function
+  const validate = () => {
+    const newErrors = {};
+    if (!title.trim()) newErrors.title = "Title is required";
+    if (!ingredients.trim()) newErrors.ingredients = "Ingredients are required";
+    if (!steps.trim()) newErrors.steps = "Steps are required";
+    return newErrors;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const validationErrors = validate(); // ✅ call validate
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors); // ✅ setErrors
+      return;
+    }
+
     const newRecipe = {
       title,
       ingredients: ingredients.split("\n"),
-      steps: steps.split("\n"), // ✅ renamed
+      steps: steps.split("\n"),
     };
 
     console.log("New Recipe:", newRecipe);
@@ -19,6 +35,7 @@ const AddRecipeForm = () => {
     setTitle("");
     setIngredients("");
     setSteps("");
+    setErrors({}); // clear errors
 
     alert("Recipe submitted! Check console for output.");
   };
@@ -39,8 +56,8 @@ const AddRecipeForm = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
           />
+          {errors.title && <p className="text-red-600 text-sm mt-1">{errors.title}</p>}
         </div>
 
         {/* Ingredients */}
@@ -54,9 +71,8 @@ const AddRecipeForm = () => {
             onChange={(e) => setIngredients(e.target.value)}
             rows={5}
             className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Example:\n200g spaghetti\n100g minced beef\n1 onion"
-            required
           />
+          {errors.ingredients && <p className="text-red-600 text-sm mt-1">{errors.ingredients}</p>}
         </div>
 
         {/* Steps */}
@@ -70,9 +86,8 @@ const AddRecipeForm = () => {
             onChange={(e) => setSteps(e.target.value)}
             rows={5}
             className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Example:\nCook spaghetti\nSauté onion\nAdd beef"
-            required
           />
+          {errors.steps && <p className="text-red-600 text-sm mt-1">{errors.steps}</p>}
         </div>
 
         {/* Submit Button */}
