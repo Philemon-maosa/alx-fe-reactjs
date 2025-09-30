@@ -1,77 +1,54 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const RecipeDetail = () => {
-  const { id } = useParams();
-  const [recipe, setRecipe] = useState(null);
+const HomePage = () => {
+  const [recipes, setRecipes] = useState([]);
 
+  // Load recipes from data.json when component mounts
   useEffect(() => {
-    fetch("/data.json")
-      .then((res) => res.json())
-      .then((data) => setRecipe(data[id]))
-      .catch((err) => console.error("Error fetching recipe:", err));
-  }, [id]);
-
-  if (!recipe) {
-    return (
-      <p className="text-center mt-10 text-gray-600 text-lg">Loading recipe...</p>
-    );
-  }
+    fetch("/data.json") // assumes data.json is in the public/ folder
+      .then((response) => response.json())
+      .then((data) => setRecipes(data))
+      .catch((error) => console.error("Error loading recipes:", error));
+  }, []);
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
-      {/* Back Link */}
-      <Link
-        to="/"
-        className="text-blue-600 hover:underline font-medium mb-6 inline-block"
-      >
-        &larr; Back to Home
-      </Link>
-
-      {/* Recipe Title */}
-      <h1 className="text-4xl md:text-5xl font-extrabold text-gray-800 mb-6">
-        {recipe.title}
+      <h1 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-8">
+        🍲 Recipe Sharing Platform
       </h1>
 
-      {/* Recipe Image */}
-      <img
-        src={recipe.image}
-        alt={recipe.title}
-        className="w-full max-h-96 object-cover rounded-2xl shadow-md mb-8"
-      />
+      {/* Responsive Grid */}
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+        {recipes.map((recipe, index) => (
+          <div
+            key={index}
+            className="bg-white shadow-md rounded-xl overflow-hidden hover:shadow-xl transform hover:scale-105 transition duration-300"
+          >
+            <img
+              src={recipe.image}
+              alt={recipe.title}
+              className="w-full h-48 object-cover"
+            />
+            <div className="p-4">
+              <h2 className="text-xl font-semibold text-gray-700 mb-2">
+                {recipe.title}
+              </h2>
+              <p className="text-gray-600 text-sm mb-3">{recipe.description}</p>
 
-      {/* Recipe Description */}
-      {recipe.description && (
-        <p className="text-gray-700 text-lg md:text-xl mb-8">
-          {recipe.description}
-        </p>
-      )}
-
-      {/* Ingredients Section */}
-      {recipe.ingredients && (
-        <div className="mb-8 bg-white p-6 rounded-2xl shadow-md">
-          <h2 className="text-2xl font-semibold mb-4 text-gray-800">Ingredients</h2>
-          <ul className="list-disc list-inside space-y-2 text-gray-700">
-            {recipe.ingredients.map((item, idx) => (
-              <li key={idx}>{item}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {/* Instructions Section */}
-      {recipe.instructions && (
-        <div className="mb-8 bg-white p-6 rounded-2xl shadow-md">
-          <h2 className="text-2xl font-semibold mb-4 text-gray-800">Instructions</h2>
-          <ol className="list-decimal list-inside space-y-3 text-gray-700">
-            {recipe.instructions.map((step, idx) => (
-              <li key={idx}>{step}</li>
-            ))}
-          </ol>
-        </div>
-      )}
+              {/* Link to RecipeDetail */}
+              <Link
+                to={`/recipe/${index}`}
+                className="mt-2 inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200"
+              >
+                View Recipe
+              </Link>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
 
-export default RecipeDetail;
+export default HomePage;
