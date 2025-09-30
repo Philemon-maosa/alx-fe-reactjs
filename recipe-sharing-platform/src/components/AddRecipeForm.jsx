@@ -3,26 +3,23 @@ import React, { useState } from "react";
 const AddRecipeForm = () => {
   const [title, setTitle] = useState("");
   const [ingredients, setIngredients] = useState("");
-  const [instructions, setInstructions] = useState("");
+  const [steps, setSteps] = useState(""); // ✅ renamed
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Prepare the recipe object
     const newRecipe = {
       title,
-      ingredients: ingredients.split("\n"), // split by new line
-      instructions: instructions.split("\n"), // split by new line
+      ingredients: ingredients.split("\n"),
+      steps: steps.split("\n"), // ✅ renamed
     };
 
     console.log("New Recipe:", newRecipe);
 
-    // Clear the form after submission
     setTitle("");
     setIngredients("");
-    setInstructions("");
+    setSteps("");
 
-    // TODO: Send the recipe to your backend or update state
     alert("Recipe submitted! Check console for output.");
   };
 
@@ -62,15 +59,15 @@ const AddRecipeForm = () => {
           />
         </div>
 
-        {/* Instructions */}
+        {/* Steps */}
         <div>
-          <label className="block font-semibold mb-1" htmlFor="instructions">
+          <label className="block font-semibold mb-1" htmlFor="steps">
             Preparation Steps (one per line)
           </label>
           <textarea
-            id="instructions"
-            value={instructions}
-            onChange={(e) => setInstructions(e.target.value)}
+            id="steps"
+            value={steps}
+            onChange={(e) => setSteps(e.target.value)}
             rows={5}
             className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Example:\nCook spaghetti\nSauté onion\nAdd beef"
