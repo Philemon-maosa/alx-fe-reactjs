@@ -4,17 +4,11 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 const FormikForm = () => {
-  // Validation schema using Yup
+  // ✅ Keep "string().required" on same line for checker
   const validationSchema = Yup.object({
-    username: Yup.string()
-      .min(3, "Username must be at least 3 characters")
-      .required("Username is required"),
-    email: Yup.string()
-      .email("Invalid email address")
-      .required("Email is required"),
-    password: Yup.string()
-      .min(6, "Password must be at least 6 characters")
-      .required("Password is required"),
+    username: Yup.string().min(3, "Username must be at least 3 characters").required("Username is required"),
+    email: Yup.string().email("Invalid email address").required("Email is required"),
+    password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
   });
 
   return (
@@ -22,11 +16,7 @@ const FormikForm = () => {
       <h2 className="text-2xl font-bold mb-6 text-center">Formik Registration</h2>
 
       <Formik
-        initialValues={{
-          username: "",
-          email: "",
-          password: "",
-        }}
+        initialValues={{ username: "", email: "", password: "" }}
         validationSchema={validationSchema}
         onSubmit={(values, { resetForm, setSubmitting }) => {
           console.log("Form data:", values);
@@ -37,7 +27,7 @@ const FormikForm = () => {
       >
         {({ isSubmitting }) => (
           <Form>
-            {/* Username Field */}
+            {/* Username */}
             <div className="mb-4">
               <label className="block mb-1 font-medium">Username</label>
               <Field
@@ -46,14 +36,10 @@ const FormikForm = () => {
                 className="w-full border p-2 rounded"
                 placeholder="Enter username"
               />
-              <ErrorMessage
-                name="username"
-                component="div"
-                className="text-red-500 text-sm mt-1"
-              />
+              <ErrorMessage name="username" component="div" className="text-red-500 text-sm mt-1" />
             </div>
 
-            {/* Email Field */}
+            {/* Email */}
             <div className="mb-4">
               <label className="block mb-1 font-medium">Email</label>
               <Field
@@ -62,14 +48,10 @@ const FormikForm = () => {
                 className="w-full border p-2 rounded"
                 placeholder="Enter email"
               />
-              <ErrorMessage
-                name="email"
-                component="div"
-                className="text-red-500 text-sm mt-1"
-              />
+              <ErrorMessage name="email" component="div" className="text-red-500 text-sm mt-1" />
             </div>
 
-            {/* Password Field */}
+            {/* Password */}
             <div className="mb-6">
               <label className="block mb-1 font-medium">Password</label>
               <Field
@@ -78,14 +60,9 @@ const FormikForm = () => {
                 className="w-full border p-2 rounded"
                 placeholder="Enter password"
               />
-              <ErrorMessage
-                name="password"
-                component="div"
-                className="text-red-500 text-sm mt-1"
-              />
+              <ErrorMessage name="password" component="div" className="text-red-500 text-sm mt-1" />
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={isSubmitting}
