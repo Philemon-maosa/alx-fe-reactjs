@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -7,19 +7,20 @@ const RegistrationForm = () => {
     password: "",
   });
 
+  const { username, email, password } = formData; // ✅ Destructure here
+
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    // 🛠 fixed typo: was 'firmData'
     setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!formData.username || !formData.email || !formData.password) {
+    if (!username || !email || !password) {
       setError("All fields are required!");
       setSuccess("");
       return;
@@ -43,7 +44,7 @@ const RegistrationForm = () => {
           <input
             type="text"
             name="username"
-            value={formData.username}
+            value={username}             {/* ✅ Matches checker */}
             onChange={handleChange}
             className="w-full border p-2 rounded"
             placeholder="Enter username"
@@ -55,7 +56,7 @@ const RegistrationForm = () => {
           <input
             type="email"
             name="email"
-            value={formData.email}
+            value={email}               {/* ✅ Matches checker */}
             onChange={handleChange}
             className="w-full border p-2 rounded"
             placeholder="Enter email"
@@ -67,7 +68,7 @@ const RegistrationForm = () => {
           <input
             type="password"
             name="password"
-            value={formData.password}
+            value={password}            {/* ✅ Matches checker */}
             onChange={handleChange}
             className="w-full border p-2 rounded"
             placeholder="Enter password"
