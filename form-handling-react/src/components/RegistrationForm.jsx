@@ -1,37 +1,33 @@
-import React, {useState} from react';
+import React, { useState } from 'react';
 
 const RegistrationForm = () => {
-const [formData, setFormData] = useState({
-username: "",
-email: "",
-password: "",
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
 
-});
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-const [error, setError] = useState("");
-const [success, setSuccess] = useState("");
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    // 🛠 fixed typo: was 'firmData'
+    setFormData({ ...formData, [name]: value });
+  };
 
-const handleChange = (e) => {
-const {name, value) = e.target;
-setFormData({ ...firmData, [name]: value});
-};
-
- // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Basic validation
     if (!formData.username || !formData.email || !formData.password) {
       setError("All fields are required!");
       setSuccess("");
       return;
     }
 
-    // Simulate success
     setError("");
     setSuccess("Registration successful! 🎉");
 
-    // Reset form
     setFormData({ username: "", email: "", password: "" });
   };
 
